@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omobolaji Olaniyan — Software Engineer</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Epilogue:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0f0e0c;
+            --ink-soft: #4a4740;
+            --ink-muted: #9b9890;
+            --bg: #ffffff;
+            --bg-card: #faf8f4;
+            --accent: #c8410a;
+            --accent-light: #f0ddd4;
+            --rule: #ddd9d2;
+            --mono: 'DM Mono', monospace;
+            --serif: 'DM Serif Display', serif;
+            --sans: 'Epilogue', sans-serif;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background: rgba(245, 242, 237, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .nav-name {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            color: var(--ink-soft);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--ink-soft);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 9rem 2.5rem 5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 2rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4.5vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.5rem;
+            max-width: 14ch;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-summary {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--ink-soft);
+            max-width: 60ch;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            padding: 0.3rem 0.75rem;
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            color: var(--ink-soft);
+            background: var(--bg-card);
+        }
+
+        .tag.hot {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        /* SECTION */
+        section {
+            padding: 5rem 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--rule);
+        }
+
+        /* EXPERIENCE GRID */
+        .exp-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .exp-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--rule);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .exp-item.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .exp-meta {
+            padding-top: 0.2rem;
+        }
+
+        .exp-period {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            color: var(--ink-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .exp-company {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--ink);
+            margin-bottom: 0.15rem;
+        }
+
+        .exp-location {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+        }
+
+        .exp-title {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .exp-project {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .exp-desc {
+            font-size: 0.875rem;
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+
+        .exp-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .stack-tag {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            padding: 0.2rem 0.55rem;
+            background: var(--bg);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            color: var(--ink-soft);
+        }
+
+        /* SKILLS */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-group {}
+
+        .skill-group-title {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .skill-item {
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-item::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* CONTACT */
+        .contact-strip {
+            background: var(--ink);
+            color: var(--bg);
+            padding: 5rem 2.5rem;
+        }
+
+        .contact-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-heading {
+            font-family: var(--serif);
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            line-height: 1.1;
+            color: var(--bg);
+        }
+
+        .contact-heading em {
+            font-style: italic;
+            color: #e8865f;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 1);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-link:hover {
+            color: #e8865f;
+        }
+
+        .contact-link span {
+            width: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        /* DIVIDER */
+        .full-rule {
+            border: none;
+            border-top: 1px solid var(--rule);
+        }
+
+        /* SCROLL REVEAL */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .exp-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            nav {
+                padding: 1rem 1.25rem;
+            }
+
+            .hero,
+            section {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <span class="nav-name">Omobolaji Olaniyan</span>
+        <div class="nav-links">
+            <a href="#experience">Experience</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-eyebrow">Software Engineer · Gothenburg, Sweden</div>
+        <h1>Building systems that <em>scale</em> and interfaces that matter.</h1>
+        <p class="hero-summary">
+            Full-stack engineer with 10+ years designing cloud-native microservices, event-driven architectures, and
+            high-performance web platforms across automotive, IoT, and industrial domains. Currently at Lync &amp; Co
+            building embedded tracking and eCommerce infrastructure on Azure.
+        </p>
+        <div class="hero-tags">
+            <span class="tag hot">.NET / C#</span>
+            <span class="tag hot">React</span>
+            <span class="tag hot">Azure</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">Event-Driven Architecture</span>
+            <span class="tag">DDD</span>
+            <span class="tag">Clean Architecture</span>
+            <span class="tag">Terraform</span>
+            <span class="tag">gRPC</span>
+        </div>
+    </div>
+
+    <hr class="full-rule">
+
+    <section id="experience">
+        <div class="section-label">Experience</div>
+        <div class="exp-grid">
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <div class="exp-period">Apr 2024 — Present</div>
+                    <div class="exp-company">Lync &amp; Co</div>
+                    <div class="exp-location">Gothenburg, Sweden</div>
+                </div>
+                <div>
+                    <div class="exp-title">Software Engineer</div>
+                    <div class="exp-project">Embedded Tracking, Fleet Management &amp; eCommerce Platform</div>
+                    <p class="exp-desc">
+                        Designed event-driven microservices on Azure (Service Bus, Functions, AKS) enabling real-time
+                        fleet telemetry ingestion at scale. Led clean architecture and DDD implementation across
+                        distributed services. Delivered responsive React/Redux frontend across device types with
+                        optimised state management, integrated via Azure API Management and API Gateway.
+                    </p>
+                    <div class="exp-stack">
+                        <span class="stack-tag">.NET</span><span class="stack-tag">C#</span><span
+                            class="stack-tag">React</span><span class="stack-tag">Redux</span><span
+                            class="stack-tag">Azure Service Bus</span><span class="stack-tag">AKS</span><span
+                            class="stack-tag">Azure Functions</span><span class="stack-tag">NUnit</span><span
+                            class="stack-tag">Moq</span><span class="stack-tag">Docker</span><span class="stack-tag">EF
+                            Core</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <div class="exp-period">Apr 2023 — Feb 2024</div>
+                    <div class="exp-company">IKEA</div>
+                    <div class="exp-location">Helsingborg, Sweden</div>
+                </div>
+                <div>
+                    <div class="exp-title">Software Developer</div>
+                    <div class="exp-project">Data ELT · Analytics &amp; Business Intelligence</div>
+                    <p class="exp-desc">
+                        Built scalable, decoupled data processing pipelines on GCP using Pub/Sub and BigQuery. Designed
+                        distributed logging and tracing across services. Provisioned and managed cloud infrastructure
+                        across environments using Terraform IaC. Implemented automated API contract and integration
+                        testing to ensure pipeline reliability.
+                    </p>
+                    <div class="exp-stack">
+                        <span class="stack-tag">Python</span><span class="stack-tag">Node.js</span><span
+                            class="stack-tag">BigQuery</span><span class="stack-tag">Pub/Sub</span><span
+                            class="stack-tag">Terraform</span><span class="stack-tag">Docker</span><span
+                            class="stack-tag">MongoDB</span><span class="stack-tag">GCP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <div class="exp-period">Mar 2021 — Apr 2023</div>
+                    <div class="exp-company">Aker Solutions</div>
+                    <div class="exp-location">Tranby, Norway</div>
+                </div>
+                <div>
+                    <div class="exp-title">Software Engineer</div>
+                    <div class="exp-project">Signal Data Acquisition &amp; Visualisation Platform</div>
+                    <p class="exp-desc">
+                        Integrated telemetry from embedded industrial systems into cloud-native .NET backend services on
+                        AWS (EKS, SQS, EventBridge). Designed microservices observability using Elastic Stack,
+                        Prometheus, and Grafana. Implemented secure OAuth-based authentication across distributed
+                        services and managed containerised deployments on Kubernetes.
+                    </p>
+                    <div class="exp-stack">
+                        <span class="stack-tag">C#</span><span class="stack-tag">.NET</span><span class="stack-tag">AWS
+                            EKS</span><span class="stack-tag">SQS</span><span class="stack-tag">EventBridge</span><span
+                            class="stack-tag">Kubernetes</span><span class="stack-tag">Prometheus</span><span
+                            class="stack-tag">Grafana</span><span class="stack-tag">Elastic Stack</span><span
+                            class="stack-tag">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <div class="exp-period">Nov 2020 — Feb 2021</div>
+                    <div class="exp-company">IKEA</div>
+                    <div class="exp-location">Helsingborg, Sweden</div>
+                </div>
+                <div>
+                    <div class="exp-title">Software Developer</div>
+                    <div class="exp-project">Customer Deviation Processing &amp; Management</div>
+                    <p class="exp-desc">
+                        Designed and implemented event-driven microservices applying DDD principles and
+                        TypeScript/NestJS. Built RESTful APIs for distributed system integrations. Provisioned cloud
+                        infrastructure with Terraform; integrated automated tests into CI/CD pipelines on GCP.
+                    </p>
+                    <div class="exp-stack">
+                        <span class="stack-tag">TypeScript</span><span class="stack-tag">NestJS</span><span
+                            class="stack-tag">Terraform</span><span class="stack-tag">Redis</span><span
+                            class="stack-tag">PostgreSQL</span><span class="stack-tag">OAuth 2.0</span><span
+                            class="stack-tag">Kubernetes</span><span class="stack-tag">GCP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <div class="exp-period">Mar 2019 — Dec 2019</div>
+                    <div class="exp-company">Volvo Group IT</div>
+                    <div class="exp-location">Gothenburg, Sweden</div>
+                </div>
+                <div>
+                    <div class="exp-title">Software Developer</div>
+                    <div class="exp-project">Monolith-to-Microservices Migration</div>
+                    <p class="exp-desc">
+                        Led decomposition of a legacy monolith into cloud-native microservices and micro-frontend
+                        components in Angular. Built RESTful and GraphQL APIs, implemented distributed logging with
+                        Prometheus/Grafana, and created reusable NuGet packages. Delivered CI/CD pipelines with
+                        automated test coverage on OpenShift.
+                    </p>
+                    <div class="exp-stack">
+                        <span class="stack-tag">C#</span><span class="stack-tag">.NET</span><span
+                            class="stack-tag">Angular</span><span class="stack-tag">GraphQL</span><span
+                            class="stack-tag">Docker</span><span class="stack-tag">OpenShift</span><span
+                            class="stack-tag">Prometheus</span><span class="stack-tag">Grafana</span><span
+                            class="stack-tag">TypeScript</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <div class="exp-period">May 2015 — Mar 2019</div>
+                    <div class="exp-company">Olason Consulting AB</div>
+                    <div class="exp-location">Gothenburg, Sweden</div>
+                </div>
+                <div>
+                    <div class="exp-title">Full Stack Developer</div>
+                    <div class="exp-project">Personal Finance Platform</div>
+                    <p class="exp-desc">
+                        Built a full-stack personal finance application with API-driven architecture, OAuth 2.0 /
+                        IdentityServer4 authentication, and a cross-platform mobile app (iOS &amp; Android) using
+                        Ionic/Angular/Capacitor. Implemented serverless event processing via AWS Lambda, SQS, and
+                        EventBridge with full CI/CD automation.
+                    </p>
+                    <div class="exp-stack">
+                        <span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span><span
+                            class="stack-tag">TypeScript</span><span class="stack-tag">Angular</span><span
+                            class="stack-tag">Ionic</span><span class="stack-tag">OAuth 2.0</span><span
+                            class="stack-tag">AWS Lambda</span><span class="stack-tag">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <hr class="full-rule">
+
+    <section id="skills">
+        <div class="section-label">Technical Skills</div>
+        <div class="skills-grid">
+            <div class="skill-group">
+                <div class="skill-group-title">Backend</div>
+                <div class="skill-list">
+                    <span class="skill-item">C# / .NET / ASP.NET Core</span>
+                    <span class="skill-item">RESTful APIs &amp; gRPC</span>
+                    <span class="skill-item">Entity Framework Core</span>
+                    <span class="skill-item">Clean Architecture / DDD</span>
+                    <span class="skill-item">Event-driven microservices</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <div class="skill-group-title">Frontend</div>
+                <div class="skill-list">
+                    <span class="skill-item">React / Redux</span>
+                    <span class="skill-item">TypeScript / JavaScript</span>
+                    <span class="skill-item">Angular / RxJS</span>
+                    <span class="skill-item">GraphQL</span>
+                    <span class="skill-item">Responsive UI / SCSS</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <div class="skill-group-title">Cloud &amp; DevOps</div>
+                <div class="skill-list">
+                    <span class="skill-item">Azure (AKS, Functions, Service Bus)</span>
+                    <span class="skill-item">AWS (EKS, SQS, EventBridge)</span>
+                    <span class="skill-item">Docker &amp; Kubernetes</span>
+                    <span class="skill-item">Terraform (IaC)</span>
+                    <span class="skill-item">GitHub Actions CI/CD</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <div class="skill-group-title">Observability &amp; Data</div>
+                <div class="skill-list">
+                    <span class="skill-item">Prometheus &amp; Grafana</span>
+                    <span class="skill-item">Elastic Stack (ELK)</span>
+                    <span class="skill-item">PostgreSQL &amp; MongoDB</span>
+                    <span class="skill-item">BigQuery</span>
+                    <span class="skill-item">Distributed tracing &amp; logging</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="contact-strip" id="contact">
+        <div class="contact-inner">
+            <div class="contact-heading">Let's build something<br><em>remarkable.</em></div>
+            <div class="contact-links">
+                <a class="contact-link" href="https://github.com/ayoolaniyan" target="_blank">
+                    <span>↗</span> github.com/ayoolaniyan
+                </a>
+                <a class="contact-link" href="mailto:omobolaolaniyan@outlook.com">
+                    <span>@</span> Available for opportunities
+                </a>
+                <a class="contact-link" href="#">
+                    <span>&#128241;</span> +46 73 509 5541
+                </a>
+                <!-- <a class="contact-link" href="#">
+                    <span>↓</span> Download CV
+                </a> -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const items = document.querySelectorAll('.exp-item');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        items.forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
